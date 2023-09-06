@@ -75,11 +75,14 @@ int main()
     std::ifstream key_words;
 
     std::cout   << "Opening files Words.txt and Key_Words.txt: ";
-                
-    std::cout   << (openTxt(&words, &key_words) ? 
-                    "The files have been opened successfully":
-                    "Error opening files")
-                << std::endl;
+
+    if(openTxt(&words, &key_words) == true){
+        std::cout   << "The files have been opened successfully" 
+                    << std::endl;
+    } else {
+        std::cout   << "Error opening files";
+        return 0;
+    }
     
     std::vector<std::string> keyWords;
 
