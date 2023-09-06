@@ -10,9 +10,7 @@ bool openTxt(std::ifstream* words, std::ifstream* key_words)
     (*words).open("words.txt");
     (*key_words).open("key_words.txt");
     
-    if(!(*words).is_open()) 
-        return false;
-    else if(!(*key_words).is_open())
+    if(!(*words).is_open() || !(*key_words).is_open())
         return false;
     
     return true;
