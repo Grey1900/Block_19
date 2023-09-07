@@ -5,30 +5,27 @@
 #include <vector>
 
 
-bool openTxt(std::ifstream* words, std::ifstream* key_words)
-{
-    (*words).open("words.txt");
-    (*key_words).open("key_words.txt");
-    
-    if(!(*words).is_open() || !(*key_words).is_open())
+bool openTxt(std::fstream& words, std::fstream& key_words)
+{   
+    if(!words.is_open() || !key_words.is_open())
         return false;
     
     return true;
 }
 
-void keyWordsArray(std::ifstream* key_words, std::vector<std::string>& keyWordsArray)
+void keyWordsArray(std::fstream& key_words, std::vector<std::string>& keyWordsArray)
 {  
     std::string line;
 
-    while(std::getline(*key_words, line))
+    while(std::getline(key_words, line))
     {
         keyWordsArray.push_back(line);
     }
-    (*key_words).close();
+    key_words.close();
 }
 
 
-void checkKeyWords  (std::ifstream* words, 
+void checkKeyWords  (std::fstream& words, 
                     std::vector<std::string>& keyWordsArray)
 {   
     std::string line = " ";
@@ -36,7 +33,7 @@ void checkKeyWords  (std::ifstream* words,
      
     for(int i = 0; i < keyWordsArray.size(); i++)
     {
-        while(std::getline((*words), line))
+        while(std::getline(words, line))
         {
             std::istringstream x(line);
             std::string word;
@@ -71,20 +68,23 @@ void outputResultToTxt(std::vector<std::string>& keyWords)
 
 int main()
 {
-    std::ifstream words;
-    std::ifstream key_words;
+    std::fstream words("words.txt", std::ios::in);
+    std::fstream key_words("key_words", std::ios::in);
 
     std::cout   << "Opening files Words.txt and Key_Words.txt: ";
-                
-    std::cout   << (openTxt(&words, &key_words) ? 
-                    "The files have been opened successfully":
-                    "Error opening files")
-                << std::endl;
+
+    if(openTxt(words, key_words) == false){
+        std::cout   << "Error opening files";
+        return 0;
+    } else {
+        std::cout   << "The files have been opened successfully"
+                    << std::endl;
+    }
     
     std::vector<std::string> keyWords;
 
-    keyWordsArray(&key_words, keyWords);
-    checkKeyWords(&words, keyWords);
+    keyWordsArray(key_words, keyWords);
+    checkKeyWords(words, keyWords);
 
     outputResultToTxt(keyWords);
 }
