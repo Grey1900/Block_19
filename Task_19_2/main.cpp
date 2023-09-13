@@ -13,7 +13,9 @@ bool filePathAndOpen(const std::string& filePath, std::ifstream& file)
             return true;
         }
     } catch (const std::exception& e) {
-        std::cout << "Exception caught: " << e.what() << std::endl;
+        std::cout   << "Exception caught: "
+                    << e.what() 
+                    << std::endl;
         return false;
     }
 }
@@ -23,7 +25,8 @@ void outputFile(std::ifstream& file)
     std::string line;
     while (std::getline(file, line))
     {
-        std::cout << line << std::endl;
+        std::cout   << line
+                    << std::endl;
     }
 }
 
@@ -32,15 +35,17 @@ int main()
     std::string filePath;
     std::ifstream file;
 
-    std::cout << "Enter the path to the file: " << std::endl;
-    std::cin >> filePath;
+    std::cout   << "Enter the path to the file: "
+                << std::endl;
+    std::cin    >> filePath;
     
     if (filePathAndOpen(filePath, file)) {
-        std::cout << "The file has been opened successfully" << std::endl;
+        std::cout   << "The file has been opened successfully"
+                    << std::endl;
         outputFile(file); 
         file.close();     
     } else {
-        std::cout << "Error opening file";
+        std::cout   << "Error opening file";
         return -1;
     }
     
