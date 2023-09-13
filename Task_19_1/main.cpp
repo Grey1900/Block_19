@@ -78,21 +78,18 @@ int main()
 
     std::cout   << "Opening files Words.txt and Key_Words.txt: ";
 
-<<<<<<< HEAD
     if(!openTxt(words, key_words)){
         std::cout   << "Error opening files";
         return 0;
     } else {
         std::cout   << "The files have been opened successfully"
                     << std::endl;
-=======
     if(openTxt(&words, &key_words) == true){
         std::cout   << "The files have been opened successfully" 
                     << std::endl;
     } else {
         std::cout   << "Error opening files";
         return 0;
->>>>>>> df8a0435ad4a1cc8f0883e2619feeac3fba7509a
     }
     
     std::vector<std::string> keyWords;
