@@ -3,6 +3,8 @@
 #include <string>
 #include <stdexcept>
 
+const int BUFFER_SIZE = 1024;
+
 bool filePathAndOpen(const std::string& filePath, std::ifstream& file)
 {
     try {
@@ -22,11 +24,13 @@ bool filePathAndOpen(const std::string& filePath, std::ifstream& file)
 
 void outputFile(std::ifstream& file)
 {
-    std::string line;
-    while (std::getline(file, line))
-    {
-        std::cout   << line
-                    << std::endl;
+    char buffer[BUFFER_SIZE];
+    while (file.read(buffer, BUFFER_SIZE)) {
+        std::cout.write(buffer, BUFFER_SIZE);
+    }
+    int bytesRead = file.gcount();
+    if (bytesRead > 0) {
+        std::cout.write(buffer, bytesRead);
     }
 }
 
