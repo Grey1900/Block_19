@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <utility>
+#include <limits>
 #include <stdexcept>
 
 
@@ -28,6 +29,8 @@ std::vector<std::pair<std::string, int>> checkStatement (std::ifstream& file)
 {
     std::string line;
     std::string name;
+    std::string firstName;
+    std::string lastName;
     int salary;
     
     std::vector<std::pair<std::string, int>> employeeData;
@@ -35,7 +38,9 @@ std::vector<std::pair<std::string, int>> checkStatement (std::ifstream& file)
     while(std::getline(file, line))
     {
         std::istringstream ss (line);
-        ss >> name;
+        ss >> firstName >> lastName;
+        name = firstName + " " + lastName;
+        ss.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
         ss >> salary;
         employeeData.emplace_back(name, salary);
     }
@@ -49,7 +54,7 @@ int checkMaxSalary (std::vector<std::pair<std::string, int>>& employeeData)
     int _max = employeeData[0].second;
     int maxIndex = 0;
 
-    for(int i = 1; i < employeeData.size(); i++) {
+    for(int i = 1; i < employeeData.size(); i++){
         if(_max < employeeData[i].second)
             maxIndex = i;
     }
@@ -76,7 +81,7 @@ int main()
     std::cout   << "Enter the path of file: ";
     std::cin    >> filePath;
  
-    if(filePathAndOpen(file, filePath)) {
+    if(filePathAndOpen(file, filePath)){
         std::cout   << "The file has been opened successfully"
                     << std::endl;
         
