@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <utility>
+#include <limits>
 #include <stdexcept>
 
 
@@ -28,6 +29,8 @@ std::vector<std::pair<std::string, int>> checkStatement (std::ifstream& file)
 {
     std::string line;
     std::string name;
+    std::string firstName;
+    std::string lastName;
     int salary;
     
     std::vector<std::pair<std::string, int>> employeeData;
@@ -35,7 +38,10 @@ std::vector<std::pair<std::string, int>> checkStatement (std::ifstream& file)
     while(std::getline(file, line))
     {
         std::istringstream ss (line);
-        ss >> name;
+        ss >> firstName >> lastName;
+        name = firstName + " " + lastName;
+        ss.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
+        ss.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
         ss >> salary;
         employeeData.emplace_back(name, salary);
     }
