@@ -4,6 +4,7 @@
 #include <string>
 #include <stdexcept>
 
+const std::vector<unsigned char> signature {0x89, 'P', 'N', 'G'};
 
 bool filePathAndOpen (std::ifstream& file, std::string& filePath)
 {
@@ -22,15 +23,37 @@ bool filePathAndOpen (std::ifstream& file, std::string& filePath)
                     << std::endl;
         return false;
     }
-    
 }
 
 
-std::vector<unsigned char> signature (std::ifstream& file)
+bool checkFileExtension (std::ifstream& file, std::string& filePath)
 {
-    std::vector<unsigned char> signature(8);
-    
+    size_t dotPos = filePath.find_last_of(".");
+
+    if (dotPos == std::string::npos) {
+        std::cerr   << "Error. Can't possible to check the file's extension.";
+        return false; 
+    } else {
+        std::string fileExtension = filePath.substr(dotPos+1);
+
+        if(fileExtension == "png" || fileExtension == "PNG"){
+            return true;
+        }
+    }
 }
+
+bool checkSignature (std::ifstream& file)
+{
+    std::vector<unsigned char> fileSignature(4);
+
+    if(file.read(reinterpret_cast<char*>(&fileSignature[0]), 4)){
+        if(signature == fileSignature)
+            return true;
+        else
+            return false;
+    } 
+}
+
 
 int main()
 {
@@ -41,7 +64,11 @@ int main()
     std::cin    >> pathFile;
 
     if(filePathAndOpen(file, pathFile)){
-        std::vector<unsigned char> signature{0x89, 'P', 'N', 'G'};
+        if(checkSignature(file) == true && checkFileExtension(file, pathFile) == true)
+            std::cout   << "File is a PNG-image.";
+        else
+            std::cout   << "File is not a PNG-image.";
     }
 
+    file.close();
 }
